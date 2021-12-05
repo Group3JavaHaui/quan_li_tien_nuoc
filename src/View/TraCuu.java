@@ -5,6 +5,7 @@
  */
 package View;
 
+import Models.BienLai;
 
 /**
  *
@@ -154,11 +155,29 @@ public class TraCuu extends javax.swing.JFrame {
         trangchu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-    
+    BienLai searchBL;
+    String sdt;
+    void doLoad()
+    {
+        jLabelmaHD.setText(searchBL.getMaBL());
+        jLabelsdt.setText(sdt);
+        int sonuoc = searchBL.getChiSoMoi() - searchBL.getChiSoCu();
+        int thanhtien = sonuoc*668;
+        jLabelsoNuoc.setText(String.valueOf(sonuoc));
+        jLabelthanhtien.setText(String.valueOf(thanhtien));
+    }
+        
     
     /**
      * @param args the command line arguments
      */
+    public TraCuu(BienLai bien,String sdt)
+    {
+        searchBL = bien;
+        this.sdt = sdt;
+        initComponents();
+                doLoad();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

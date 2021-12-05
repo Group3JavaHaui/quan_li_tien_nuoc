@@ -5,6 +5,10 @@
  */
 package View;
 
+import DAO.NhanVienDAO;
+import DAO.BienLaiDAO;
+import Helpers.MessaDialogHelper;
+import Models.BienLai;
 /**
  *
  * @author AnhDT
@@ -202,6 +206,11 @@ public class TrangChu extends javax.swing.JFrame {
         jButton6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/refresh.png"))); // NOI18N
         jButton6.setText("Thoát");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -285,24 +294,45 @@ public class TrangChu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtondangnhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtondangnhapActionPerformed
-        // TODO add your handling code here:
-       
+        // TODO add your handling code here:     
     }//GEN-LAST:event_jButtondangnhapActionPerformed
 
     private void jButtontracuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtontracuuActionPerformed
         // TODO add your handling code here:
-       
+        doTraCuu();
     }//GEN-LAST:event_jButtontracuuActionPerformed
 
     private void jButtongioithieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtongioithieuActionPerformed
         // TODO add your handling code here:
-        
+        goToGioiThieu();
     }//GEN-LAST:event_jButtongioithieuActionPerformed
 
     private void jButtonphanhoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonphanhoiActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonphanhoiActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+void goToGioiThieu()
+    {
+       GioiThieuDialog gioithieu = new GioiThieuDialog();
+       gioithieu.setVisible(true);
+       this.dispose();
+    }
+    
+    void doTraCuu()
+    {
+         BienLai bienlai = BienLaiDAO.Search(jTextFieldsdt.getText());
+         if(bienlai != null)
+         {
+             TraCuu tracuu = new TraCuu(bienlai,jTextFieldsdt.getText());
+             tracuu.setVisible(true);
+             this.dispose();
+         }
+    }
+    
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
