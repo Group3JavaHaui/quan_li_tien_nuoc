@@ -5,6 +5,14 @@
  */
 package View;
 
+import DAO.BienLaiDAO;
+import Models.BienLai;
+import Models.ListBienLai;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
+
+
 
 
 /**
@@ -12,7 +20,18 @@ package View;
  * @author Admin
  */
 public class QuanLyHoaDon extends javax.swing.JPanel {
-
+    /**
+     * Creates new form QuanLyHoaDon
+     */
+    public static ListBienLai listBienLai = new ListBienLai();
+    public QuanLyHoaDon() {
+        initComponents();
+        buttonGroupMa.add(jRadioButtonMaHD);
+        buttonGroupMa.add(jRadioButtonMaKH);
+        jRadioButtonMaHD.setSelected(true);
+        listBienLai.setListBienLai(BienLaiDAO.GetBienLais());
+        doHienThi(listBienLai.getListBienLai());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -314,12 +333,12 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
 
     private void jTabledataMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabledataMousePressed
         // TODO add your handling code here:
-         
+        getSelectRow();
     }//GEN-LAST:event_jTabledataMousePressed
 
     private void jButtonLamMOiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLamMOiActionPerformed
         // TODO add your handling code here:
-        
+        doClear();
     }//GEN-LAST:event_jButtonLamMOiActionPerformed
 
     private void jButtonInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInActionPerformed
@@ -331,7 +350,39 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jButtonXoaActionPerformed
-    
+    void doClear()
+    {
+        jTextFieldMaHD.setText("");
+        jTextFieldMaKH.setText("");
+        jTextFieldNgayLap.setText("");
+        jTextFieldcu.setText("");
+        jTextFieldmoi.setText("");
+        jTextFieldtongtien.setText("");
+        doHienThi(listBienLai.getListBienLai());
+    }
+    void getSelectRow()
+    {
+        int row = jTabledata.getSelectedRow();
+         jTextFieldNgayLap.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 0)));
+         jTextFieldMaKH.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 1))); 
+         jTextFieldMaHD.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 2))); 
+         jTextFieldcu.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 3))); 
+         jTextFieldmoi.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 4))); 
+         jTextFieldtongtien.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 5))); 
+    }
+    void doHienThi(ArrayList<BienLai> list)
+    {
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) jTabledata.getModel();
+        model.setRowCount(0);
+        for (BienLai bienLai : list) {
+            Object[] row = {
+                bienLai.getNgayLap(),bienLai.getMaKH(),bienLai.getMaBL(),bienLai.getChiSoCu(),bienLai.getChiSoMoi(),bienLai.getThanhToan()
+            };
+            model.addRow(row);
+        }
+        jTabledata.setModel(model);
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
