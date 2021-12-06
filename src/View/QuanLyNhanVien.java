@@ -4,7 +4,14 @@
  * and open the template in the editor.
  */
 package View;
-
+import DAO.NhanVienDAO;
+import Helpers.MessaDialogHelper;
+import Models.NhanVien;
+import Models.ListNhanVien;
+import java.awt.List;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Admin
@@ -14,7 +21,15 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     /**
      * Creates new form QuanLyNhanVien
      */
-
+    ListNhanVien listNhanVien = new ListNhanVien();
+    public QuanLyNhanVien() {
+        initComponents();
+        init();
+    }
+    void init(){
+        listNhanVien.setListNhanVien(NhanVienDAO.GetNhanViens());
+        LoadData(listNhanVien.getListNhanVien());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -265,26 +280,148 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTaomoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaomoiActionPerformed
+        ReNew();
     }//GEN-LAST:event_btnTaomoiActionPerformed
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
+        Save();
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnCapnhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapnhatActionPerformed
         // TODO add your handling code here:
+        upDate();
     }//GEN-LAST:event_btnCapnhatActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        Delete();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Search();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTabledataMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabledataMousePressed
         // TODO add your handling code here:
+        getSelectRow();
     }//GEN-LAST:event_jTabledataMousePressed
 
-
+void LoadData(ArrayList<NhanVien> list)
+    {
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) jTabledata.getModel();
+        model.setRowCount(0);
+        for (NhanVien nv : list) {
+            Object[] row = {
+                nv.getID(),nv.getHoTen(),nv.getSDT(),nv.getKhuVuc(),nv.getAccount(), nv.getPassword(), nv.getQuyen()
+            };
+            model.addRow(row);
+        }
+        jTabledata.setModel(model);
+    }
+void ReNew(){
+    txtID.setText("");
+    txtHoten.setText("");
+    txtSDT.setText("");
+    txtAccount.setText("");
+    txtPass.setText("");
+    LoadData(listNhanVien.getListNhanVien());
+}
+void Search(){
+    String kv = cbbKhuvuc.getSelectedItem().toString();
+    LoadData(listNhanVien.SearchByKhuVucList(kv));
+}
+void Delete(){
+    try{
+        int index = listNhanVien.GetIndex(txtID.getText());
+        if(index == -1){
+            MessaDialogHelper.showMessageDialog(null, "Not Exist", "Not Found");
+            return;
+        }
+        if(MessaDialogHelper.showConfirmDialog(null, "Are you sure about that?", "Delete") == 0)
+        {
+            NhanVienDAO.Delete(txtID.getText());
+            listNhanVien.RemoveByIndex(index);
+            LoadData(listNhanVien.getListNhanVien());
+        }
+    }
+    catch(Exception e){
+        MessaDialogHelper.showMessageDialog(null, "Some thing went wrong", "Error");
+    }
+}
+void Save(){
+    int index = listNhanVien.GetIndex(txtID.getText());
+    if(index > -1){
+            MessaDialogHelper.showMessageDialog(null, "Already exist", "Exist");
+            return;
+    }
+    NhanVien newNv = new NhanVien();
+        if(txtID.getText().isEmpty() || txtHoten.getText().isEmpty()
+                || txtAccount.getText().isEmpty() || txtPass.getText().isEmpty()
+                || txtSDT.getText().isEmpty())
+        {
+            MessaDialogHelper.showErrorDialog(null, "Thong tin con trong", "Nhap khong du");
+            return;
+        }
+        newNv.setID(txtID.getText());
+        newNv.setHoTen(txtHoten.getText());
+        newNv.setSDT(txtSDT.getText());
+        newNv.setAccount(txtAccount.getText());
+        newNv.setPassword(txtPass.getText());
+        newNv.setKhuVuc(cbbKhuvuc.getSelectedItem().toString());
+        newNv.setQuyen(false);
+        try {
+            NhanVienDAO.Insert(newNv);
+            listNhanVien.AddNhanVien(newNv);
+            LoadData(listNhanVien.getListNhanVien());
+        } catch (Exception e) {
+        }
+}
+void getSelectRow()
+    {
+        int row = jTabledata.getSelectedRow();
+         txtID.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 0)));
+         txtHoten.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 1))); 
+         txtSDT.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 2))); 
+         txtAccount.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 4))); 
+         txtPass.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 5))); 
+    }
+void upDate(){
+    int index = listNhanVien.GetIndex(txtID.getText());
+        if(index == -1) 
+        {
+            MessaDialogHelper.showMessageDialog(null, "Khong ton tai", "Not Found");
+            return;
+        }
+        NhanVien newNv = listNhanVien.getListNhanVien().get(index);
+        System.err.println(index);
+        if(!txtID.getText().isEmpty())
+        {
+            newNv.setID(txtID.getText());
+        }
+        if(!txtHoten.getText().isEmpty())
+        {
+            newNv.setHoTen(txtHoten.getText());
+        }
+        
+        if(!txtSDT.getText().isEmpty())
+        {
+            newNv.setSDT(txtSDT.getText());
+        }
+        if(!txtAccount.getText().isEmpty())
+        {
+            newNv.setAccount(txtAccount.getText());
+        }
+        if(!txtPass.getText().isEmpty())
+        {
+            newNv.setPassword(txtPass.getText());
+        }
+        newNv.setKhuVuc(cbbKhuvuc.getSelectedItem().toString());
+        newNv.setQuyen(false);
+        
+        NhanVienDAO.Update(newNv);
+        listNhanVien.getListNhanVien().set(index,newNv);
+        LoadData(listNhanVien.getListNhanVien());
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCapnhat;
     private javax.swing.JButton btnLuu;
