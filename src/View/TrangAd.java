@@ -5,6 +5,8 @@
  */
 package View;
 
+import Helpers.MessaDialogHelper;
+
 /**
  *
  * @author AnhDT
@@ -14,7 +16,21 @@ public class TrangAd extends javax.swing.JFrame {
     /**
      * Creates new form TrangAd
      */
-   
+    static int role;
+    //role 2 is admin
+    //role 1 is user
+
+    
+    public TrangAd() {
+        initComponents();
+
+        tpMainBoard.setSelectedIndex(2);
+    }
+    public TrangAd(int role)
+    {
+        this.role = role;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -213,28 +229,27 @@ public class TrangAd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnQLPHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLPHActionPerformed
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btnQLPHActionPerformed
 
     private void btnQLKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLKHActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_btnQLKHActionPerformed
 
     private void btnQLHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLHDActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_btnQLHDActionPerformed
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
         // TODO add your handling code here:
-        
+        TrangChu trangchu = new TrangChu();
+        trangchu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnDangXuatActionPerformed
 
     private void btnQLNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLNVActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_btnQLNVActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
@@ -253,7 +268,8 @@ public class TrangAd extends javax.swing.JFrame {
 
     private void mnuGioiThieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuGioiThieuActionPerformed
         // TODO add your handling code here:
-        
+        GioiThieuDialog gt = new GioiThieuDialog();
+        gt.setVisible(true);
     }//GEN-LAST:event_mnuGioiThieuActionPerformed
 
     /**

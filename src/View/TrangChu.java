@@ -5,10 +5,11 @@
  */
 package View;
 
-import DAO.NhanVienDAO;
 import DAO.BienLaiDAO;
+import DAO.NhanVienDAO;
 import Helpers.MessaDialogHelper;
 import Models.BienLai;
+
 /**
  *
  * @author AnhDT
@@ -48,10 +49,10 @@ public class TrangChu extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldaccount = new javax.swing.JTextField();
+        jTextFieldpassword = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jButtondangnhap = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,11 +120,6 @@ public class TrangChu extends javax.swing.JFrame {
         jButtonphanhoi.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jButtonphanhoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/pen.png"))); // NOI18N
         jButtonphanhoi.setText("Phản hồi khách hàng");
-        jButtonphanhoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonphanhoiActionPerformed(evt);
-            }
-        });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Tại đây, bạn có thể tra cứu và phản hồi lại cho chúng tôi. Cảm ơn quý khách hàng rất nhiều !");
@@ -192,6 +188,8 @@ public class TrangChu extends javax.swing.JFrame {
 
         jTextFieldaccount.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        jTextFieldpassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/padlock.png"))); // NOI18N
 
         jButtondangnhap.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -228,12 +226,12 @@ public class TrangChu extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(105, 105, 105)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldaccount, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldaccount, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(12, 12, 12)
-                                        .addComponent(jLabel6))
-                                    .addComponent(jPasswordField1)))
+                                        .addComponent(jLabel6))))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(86, 86, 86)
                                 .addComponent(jButtondangnhap)
@@ -256,10 +254,10 @@ public class TrangChu extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFieldaccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
@@ -294,7 +292,8 @@ public class TrangChu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtondangnhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtondangnhapActionPerformed
-        // TODO add your handling code here:     
+        // TODO add your handling code here:
+        doCheckUser();
     }//GEN-LAST:event_jButtondangnhapActionPerformed
 
     private void jButtontracuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtontracuuActionPerformed
@@ -307,14 +306,12 @@ public class TrangChu extends javax.swing.JFrame {
         goToGioiThieu();
     }//GEN-LAST:event_jButtongioithieuActionPerformed
 
-    private void jButtonphanhoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonphanhoiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonphanhoiActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_jButton6ActionPerformed
-void goToGioiThieu()
+
+    void goToGioiThieu()
     {
        GioiThieuDialog gioithieu = new GioiThieuDialog();
        gioithieu.setVisible(true);
@@ -332,8 +329,16 @@ void goToGioiThieu()
          }
     }
     
-    
-    
+    void doCheckUser()
+    {
+       int loginrole = NhanVienDAO.CheckUser(jTextFieldaccount.getText(), jTextFieldpassword.getText());
+       if(loginrole >0)
+       {
+            TrangAd ad = new TrangAd(loginrole);
+            ad.setVisible(true);
+            this.dispose();
+       }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton6;
@@ -354,8 +359,8 @@ void goToGioiThieu()
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextFieldaccount;
+    private javax.swing.JTextField jTextFieldpassword;
     private javax.swing.JTextField jTextFieldsdt;
     // End of variables declaration//GEN-END:variables
 }
