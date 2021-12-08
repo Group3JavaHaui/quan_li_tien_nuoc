@@ -345,13 +345,36 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
 
     private void jButtonInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInActionPerformed
         // TODO add your handling code here:
-        
+        goToHoaDonView();
     }//GEN-LAST:event_jButtonInActionPerformed
 
     private void jButtonXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonXoaActionPerformed
         // TODO add your handling code here:
-        
+        doDelete();
     }//GEN-LAST:event_jButtonXoaActionPerformed
+    
+    void goToHoaDonView()
+    {
+        int row = jTabledata.getSelectedRow();
+        if(row >=0){
+            BienLai newBienLai = new BienLai();
+            newBienLai.setMaBL(jTextFieldMaHD.getText());
+            newBienLai.setMaKH(jTextFieldMaKH.getText());
+            newBienLai.setNgayLap(LocalDate.parse(jTextFieldNgayLap.getText()) );
+            newBienLai.setChiSoCu(Integer.parseInt(jTextFieldcu.getText()) );
+            newBienLai.setChiSoMoi(Integer.parseInt(jTextFieldmoi.getText()) );
+          int thanhtien = newBienLai.getThanhToan();
+          if(MessaDialogHelper.showConfirmDialog(null, "Co chac muon in khong", "In") == 0){
+            HoaDonView view = new HoaDonView(newBienLai);
+            view.setVisible(true);
+          }
+        }
+        else
+        {
+            MessaDialogHelper.showMessageDialog(null, "Please choose one", "Choose one");
+        }
+    }
+    
     void doClear()
     {
         jTextFieldMaHD.setText("");
