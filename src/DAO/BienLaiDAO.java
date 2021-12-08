@@ -71,6 +71,46 @@ public class BienLaiDAO {
         }
         return false;
     }
+    public static void UpdateByMaHD(BienLai bienLai)
+    {
+        String sql = " Update BIENLAI "
+                + " Set NGAYLAP = ?, CHISOCU = ?, CHISOMOI = ? "
+                + " where MABIENLAI = ?";
+        try(
+            Connection con = DatabaseHelper.openConnection();
+            PreparedStatement state = con.prepareStatement(sql);
+                )
+            {
+                state.setString(1, String.valueOf(bienLai.getNgayLap()));
+                state.setString(2, String.valueOf(bienLai.getChiSoCu()));
+                state.setString(3, String.valueOf(bienLai.getChiSoMoi()));
+                state.setString(4, String.valueOf(bienLai.getMaBL()));
+                state.executeUpdate();
+                
+        } catch (Exception e) {
+            MessaDialogHelper.showErrorDialog(null, e.getMessage(),"UpdateByMaHD");
+        }
+    }
+    public static void UpdateByMaKH(BienLai bienLai)
+    {
+        String sql = " Update BIENLAI "
+                + " Set NGAYLAP = ?, CHISOCU = ?, CHISOMOI = ? "
+                + " where MAKH = ?";
+        try(
+            Connection con = DatabaseHelper.openConnection();
+            PreparedStatement state = con.prepareStatement(sql);
+                )
+            {
+                state.setDate(1, Date.valueOf(bienLai.getNgayLap()));
+                state.setInt(2, bienLai.getChiSoCu());
+                state.setInt(3, bienLai.getChiSoMoi());
+                state.setString(4, String.valueOf(bienLai.getMaKH()));
+                state.executeUpdate();
+                
+        } catch (Exception e) {
+            MessaDialogHelper.showErrorDialog(null, e.getMessage(),"UpdateByMaKH");
+        }
+    }
     
     public static ArrayList<BienLai> GetBienLais()
     {
