@@ -9,6 +9,7 @@ import DAO.BienLaiDAO;
 import Helpers.MessaDialogHelper;
 import Models.BienLai;
 import Models.ListBienLai;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -329,7 +330,7 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
 
     private void jButtonCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapNhatActionPerformed
         // TODO add your handling code here:
-        
+        doUpdate();
     }//GEN-LAST:event_jButtonCapNhatActionPerformed
 
     private void jTabledataMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabledataMousePressed
@@ -400,6 +401,49 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
             MessaDialogHelper.showMessageDialog(null, "Chua nhap Day du", "Input Fail");
         }
         
+    }
+    void doUpdate()
+    {
+        int index = listBienLai.getBienLaiByMaHD(jTextFieldMaHD.getText());
+        if(index == -1) 
+        {
+            MessaDialogHelper.showMessageDialog(null, "Khong ton tai", "Not Found");
+            return;
+        }
+        BienLai newBienLai = listBienLai.getListBienLai().get(index);
+        System.err.println(index);
+        if(!jTextFieldMaHD.getText().isEmpty())
+        {
+            newBienLai.setMaBL(jTextFieldMaHD.getText());
+        }
+        if(!jTextFieldMaKH.getText().isEmpty())
+        {
+            newBienLai.setMaKH(jTextFieldMaKH.getText());
+        }
+        
+        if(!jTextFieldNgayLap.getText().isEmpty())
+        {
+            newBienLai.setNgayLap(LocalDate.parse(jTextFieldNgayLap.getText()) );
+        }
+        if(!jTextFieldcu.getText().isEmpty())
+        {
+            newBienLai.setChiSoCu(Integer.parseInt(jTextFieldcu.getText()) );
+        }
+        if(!jTextFieldmoi.getText().isEmpty())
+        {
+            newBienLai.setChiSoMoi(Integer.parseInt(jTextFieldmoi.getText()) );
+        }
+        int thanhtien = newBienLai.getThanhToan();
+        if(jRadioButtonMaHD.isSelected())
+        {
+            BienLaiDAO.UpdateByMaHD(newBienLai);
+        }
+        else
+        {
+            BienLaiDAO.UpdateByMaHD(newBienLai);
+        }
+        listBienLai.getListBienLai().set(index,newBienLai);
+        doHienThi(listBienLai.getListBienLai());
     }
 
 
