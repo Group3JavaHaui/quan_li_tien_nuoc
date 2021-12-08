@@ -5,7 +5,13 @@
  */
 package View;
 
-
+import DAO.PhanHoiDAO;
+import Helpers.MessaDialogHelper;
+import Models.PhanHoi;
+import Models.ListPhanHoi;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,8 +22,15 @@ public class QuanLyPhanHoiPanel extends javax.swing.JPanel {
     /**
      * Creates new form QuanLyPhanHoiPanel
      */
-
-
+    ListPhanHoi listPhanHoi = new ListPhanHoi();
+    public QuanLyPhanHoiPanel() {
+        initComponents();
+        init();
+    }
+    void init(){
+        listPhanHoi.setListPhanHoi(PhanHoiDAO.GetPhanHois());
+        LoadData(listPhanHoi.getListPhanHoi());
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -249,20 +262,100 @@ public class QuanLyPhanHoiPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        UpDate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        Delete();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        Search();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTabledataMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabledataMousePressed
-
+        // TODO add your handling code here:
+        getSelectRow();
     }//GEN-LAST:event_jTabledataMousePressed
-
+    void LoadData(ArrayList<PhanHoi> list)
+    {
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) jTabledata.getModel();
+        model.setRowCount(0);
+        for (PhanHoi ph : list) {
+            Object[] row = {
+                ph.getMaPH(), ph.getMaKH(), ph.getNgayPH(), "", ph.getMoTa()
+            };
+            model.addRow(row);
+        }
+        jTabledata.setModel(model);
+    }
+    void UpDate(){
+        int index = listPhanHoi.getIndex(txtMaPH.getText());
+        if(index == -1) 
+        {
+            MessaDialogHelper.showMessageDialog(null, "Khong ton tai", "Not Found");
+            return;
+        }
+        PhanHoi newPH = listPhanHoi.getListPhanHoi().get(index);
+        System.err.println(index);
+        if(!txtMaPH.getText().isEmpty())
+        {
+            newPH.setMaPH(txtMaPH.getText());
+        }
+        if(!txtMaKh.getText().isEmpty())
+        {
+            newPH.setMaKH(txtMaKh.getText());
+        }
+        
+        if(!txtNgayPH.getText().isEmpty())
+        {
+            newPH.setNgayPH(LocalDate.parse(txtNgayPH.getText()));
+        }
+        if(!txaMoTa.getText().isEmpty())
+        {
+            newPH.setMoTa(txaMoTa.getText());
+        }
+        
+        PhanHoiDAO.UpdateByMaPH(newPH);
+        listPhanHoi.getListPhanHoi().set(index,newPH);
+        LoadData(listPhanHoi.getListPhanHoi());
+    }
+    void Delete(){
+        try{
+        int index = listPhanHoi.getIndex(txtMaPH.getText());
+        if(index == -1){
+            MessaDialogHelper.showMessageDialog(null, "Invalid", "Not Found");
+            return;
+        }
+        if(MessaDialogHelper.showConfirmDialog(null, "Are you sure about that?", "Delete") == 0)
+        {
+            PhanHoiDAO.DeleteByMaPH(txtMaPH.getText());
+            listPhanHoi.RemoveByIndex(index);
+            LoadData(listPhanHoi.getListPhanHoi());
+        }
+    }
+    catch(Exception e){
+        MessaDialogHelper.showMessageDialog(null, "Some thing went wrong", "Error");
+    }
+    }
+    void Search(){
+        if(txtMaKh.getText().isEmpty()){
+            MessaDialogHelper.showMessageDialog(null, "No keyword", "Error");
+            return;
+        }
+        LoadData(listPhanHoi.SearchByKH(txtMaKh.getText()));
+    }
+    void getSelectRow()
+    {
+        int row = jTabledata.getSelectedRow();
+         txtMaKh.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 1)));
+         txtMaPH.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 0))); 
+         txtNgayPH.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 2))); 
+         txaMoTa.setText(String.valueOf(jTabledata.getModel().getValueAt(row, 3))); 
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
