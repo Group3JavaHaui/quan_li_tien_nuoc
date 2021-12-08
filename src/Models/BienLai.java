@@ -32,6 +32,10 @@ public class BienLai {
         this.TongTien = ThanhToan;
     }
     
+     public KhachHang getKhachHang()
+    {
+        return KhachHangDAO.Search(MaKH);
+    }   
           
     public String getMaBL() {
         return MaHD;
