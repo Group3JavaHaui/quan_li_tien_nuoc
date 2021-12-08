@@ -445,6 +445,37 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
         listBienLai.getListBienLai().set(index,newBienLai);
         doHienThi(listBienLai.getListBienLai());
     }
+    
+    void doDelete()
+    {
+        int index = listBienLai.getBienLaiByMaHD(jTextFieldMaHD.getText());
+        if(index == -1) 
+        {
+            MessaDialogHelper.showMessageDialog(null, "Khong ton tai", "Not Found");
+            return;
+        }
+        if(jRadioButtonMaHD.isSelected())
+        {
+            if(MessaDialogHelper.showConfirmDialog(null, "Co chac muon xoa khong", "Delete") == 0){
+                BienLaiDAO.DeleteByKH(jTextFieldMaHD.getText());
+                listBienLai.RemoveByIndex(index);
+            }
+        }
+        else if(jRadioButtonMaKH.isSelected())
+        {
+            if(MessaDialogHelper.showConfirmDialog(null, "Co chac muon xoa khong", "Delete") == 0){
+            BienLaiDAO.DeleteByKH(jTextFieldMaKH.getText());
+            listBienLai.RemoveByIndex(index);
+            }
+        }
+        else
+        {
+            MessaDialogHelper.showMessageDialog(null, "Chua nhap Day du", "Input Fail");
+            return;
+        }
+        doHienThi(listBienLai.getListBienLai());
+        
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

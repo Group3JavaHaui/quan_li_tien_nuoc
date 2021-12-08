@@ -31,6 +31,7 @@ public class BienLai {
         this.ChiSoMoi = ChiSoMoi;
         this.TongTien = ThanhToan;
     }
+    
           
     public String getMaBL() {
         return MaHD;

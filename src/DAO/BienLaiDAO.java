@@ -197,7 +197,38 @@ public class BienLaiDAO {
         return null;
     }
     
-    
+    public static void DeleteByHD(String ma)
+    {
+        String sql = "Delete "
+                + "from BIENLAI "
+                + "where MABIENLAI = ?" ;
+        try(
+            Connection con = DatabaseHelper.openConnection();
+            PreparedStatement state = con.prepareStatement(sql);
+                )
+            {
+            state.setString(1, ma);
+            state.execute();
+        } catch (Exception e) {
+            MessaDialogHelper.showErrorDialog(null, e.getMessage(),"DeleteByHD");
+        }
+    }
+    public static void DeleteByKH(String ma)
+    {
+        String sql = "Delete "
+                + "from BIENLAI "
+                + "where MAKH = ?" ;
+        try(
+            Connection con = DatabaseHelper.openConnection();
+            PreparedStatement state = con.prepareStatement(sql);
+                )
+            {
+            state.setString(1, ma);
+            state.execute();
+        } catch (Exception e) {
+            MessaDialogHelper.showErrorDialog(null, e.getMessage(),"DeleteByKH");
+        }
+    }
     
     
     
