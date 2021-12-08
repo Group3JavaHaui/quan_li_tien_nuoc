@@ -6,6 +6,7 @@
 package View;
 
 import DAO.BienLaiDAO;
+import Helpers.MessaDialogHelper;
 import Models.BienLai;
 import Models.ListBienLai;
 import java.util.ArrayList;
@@ -323,7 +324,7 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTimKiemActionPerformed
-        
+        doSearch();
     }//GEN-LAST:event_jButtonTimKiemActionPerformed
 
     private void jButtonCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCapNhatActionPerformed
@@ -382,6 +383,23 @@ public class QuanLyHoaDon extends javax.swing.JPanel {
             model.addRow(row);
         }
         jTabledata.setModel(model);
+    }
+    
+    void doSearch()
+    {
+        if(jRadioButtonMaHD.isSelected())
+        {
+            doHienThi(listBienLai.SearchByMaHD(jTextFieldMaHD.getText()));
+        }
+        else if(jRadioButtonMaKH.isSelected())
+        {
+            doHienThi(listBienLai.SearchByMaKH(jTextFieldMaKH.getText()));
+        }
+        else
+        {
+            MessaDialogHelper.showMessageDialog(null, "Chua nhap Day du", "Input Fail");
+        }
+        
     }
 
 
