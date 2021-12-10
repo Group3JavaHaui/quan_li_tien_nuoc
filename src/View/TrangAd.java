@@ -19,15 +19,27 @@ public class TrangAd extends javax.swing.JFrame {
     static int role;
     //role 2 is admin
     //role 1 is user
-
+    QuanLyHoaDon hd = new QuanLyHoaDon();
+    QuanlyKhachHang kh = new QuanlyKhachHang();
+    QuanLyNhanVien nv = new QuanLyNhanVien();
+    QuanLyPhanHoiPanel ph = new QuanLyPhanHoiPanel();
     
     public TrangAd() {
         initComponents();
-
+        tpMainBoard.add(nv);
+        tpMainBoard.add(kh);
+        tpMainBoard.add(hd);
+        tpMainBoard.add(ph);
         tpMainBoard.setSelectedIndex(2);
     }
     public TrangAd(int role)
     {
+        initComponents();
+        tpMainBoard.add(nv);
+        tpMainBoard.add(kh);
+        tpMainBoard.add(hd);
+        tpMainBoard.add(ph);
+        tpMainBoard.setSelectedIndex(2);
         this.role = role;
     }
 
@@ -229,16 +241,18 @@ public class TrangAd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnQLPHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLPHActionPerformed
-
+        tpMainBoard.setSelectedIndex(3);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnQLPHActionPerformed
 
     private void btnQLKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLKHActionPerformed
         // TODO add your handling code here:
+        tpMainBoard.setSelectedIndex(1);
     }//GEN-LAST:event_btnQLKHActionPerformed
 
     private void btnQLHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLHDActionPerformed
         // TODO add your handling code here:
+        tpMainBoard.setSelectedIndex(2);
     }//GEN-LAST:event_btnQLHDActionPerformed
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
@@ -250,6 +264,8 @@ public class TrangAd extends javax.swing.JFrame {
 
     private void btnQLNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLNVActionPerformed
         // TODO add your handling code here:
+        if(role == 2)
+            tpMainBoard.setSelectedIndex(0);
     }//GEN-LAST:event_btnQLNVActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
